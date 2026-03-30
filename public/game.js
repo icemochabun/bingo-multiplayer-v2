@@ -1,6 +1,16 @@
 /* ── Socket ── */
 const socket = io();
 
+/* ── Pre-fill room code from ?room= URL param ── */
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const room = params.get('room');
+  if (room) {
+    $('roomCodeInput').value = room.toUpperCase();
+    $('playerName').focus();
+  }
+})();
+
 /* ── State ── */
 let state = {
   roomId: null,
@@ -101,6 +111,15 @@ function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/* ── Show QR code for the waiting room ── */
+function showQR(roomId) {
+  const joinUrl = `${window.location.origin}/?room=${roomId}`;
+  const img = $('qrImg');
+  img.src = `/api/qr?data=${encodeURIComponent(joinUrl)}`;
+  img.alt = `Join room ${roomId}`;
+  $('qrUrl').textContent = joinUrl;
+}
+
 /* ── Lobby ── */
 $('createBtn').addEventListener('click', () => {
   const name = $('playerName').value.trim();
@@ -161,6 +180,7 @@ socket.on('roomCreated', ({ roomId, card }) => {
   $('displayRoomCode').textContent = roomId;
   show('startBtn');
   hide('waitingMsg');
+  showQR(roomId);
   showScreen('waitingRoom');
 });
 
@@ -172,6 +192,7 @@ socket.on('roomJoined', ({ roomId, card, calledNumbers }) => {
   $('displayRoomCode').textContent = roomId;
   hide('startBtn');
   show('waitingMsg');
+  showQR(roomId);
   showScreen('waitingRoom');
 });
 

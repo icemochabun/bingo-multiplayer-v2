@@ -84,6 +84,31 @@ body {
 }
 .room-code-box strong { font-size: 1.4rem; letter-spacing: 4px; color: var(--accent); }
 
+/* ── QR code ── */
+.qr-section {
+  margin: 0 auto 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.qr-label { font-size: 0.8rem; color: var(--muted); }
+.qr-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 10px;
+  border: 3px solid var(--accent);
+  display: block;
+  background: var(--surface2);
+}
+.qr-url {
+  font-size: 0.72rem;
+  color: var(--muted);
+  word-break: break-all;
+  max-width: 280px;
+  text-align: center;
+}
+
 /* ── Game layout ── */
 .game-layout {
   display: flex;
