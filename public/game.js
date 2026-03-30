@@ -1,15 +1,15 @@
+/* ── DOM helpers ── */
+const $ = id => document.getElementById(id);
+const show = id => $(id).classList.remove('hidden');
+const hide = id => $(id).classList.add('hidden');
+const showScreen = name => {
+  ['lobby', 'waitingRoom', 'gameScreen'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== name);
+  });
+};
+
 /* ── Socket ── */
 const socket = io();
-
-/* ── Quick-join mode: ?room=CODE ── */
-const _quickJoinCode = new URLSearchParams(window.location.search).get('room');
-if (_quickJoinCode) {
-  // Hide normal lobby, show simplified join card
-  $('normalLobbySection').classList.add('hidden');
-  $('quickJoinSection').classList.remove('hidden');
-  $('quickJoinCode').textContent = _quickJoinCode.toUpperCase();
-  $('playerName').focus();
-}
 
 /* ── State ── */
 let state = {
@@ -20,15 +20,14 @@ let state = {
   gameOver: false
 };
 
-/* ── DOM helpers ── */
-const $ = id => document.getElementById(id);
-const show = id => $(id).classList.remove('hidden');
-const hide = id => $(id).classList.add('hidden');
-const showScreen = name => {
-  ['lobby', 'waitingRoom', 'gameScreen'].forEach(s => {
-    document.getElementById(s).classList.toggle('hidden', s !== name);
-  });
-};
+/* ── Quick-join mode: ?room=CODE ── */
+const _quickJoinCode = new URLSearchParams(window.location.search).get('room');
+if (_quickJoinCode) {
+  $('normalLobbySection').classList.add('hidden');
+  $('quickJoinSection').classList.remove('hidden');
+  $('quickJoinCode').textContent = _quickJoinCode.toUpperCase();
+  $('playerName').focus();
+}
 
 /* ── Letter for a number ── */
 function letterOf(n) {
