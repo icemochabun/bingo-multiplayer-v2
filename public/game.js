@@ -1,15 +1,15 @@
 /* ── Socket ── */
 const socket = io();
 
-/* ── Pre-fill room code from ?room= URL param ── */
-(function () {
-  const params = new URLSearchParams(window.location.search);
-  const room = params.get('room');
-  if (room) {
-    $('roomCodeInput').value = room.toUpperCase();
-    $('playerName').focus();
-  }
-})();
+/* ── Quick-join mode: ?room=CODE ── */
+const _quickJoinCode = new URLSearchParams(window.location.search).get('room');
+if (_quickJoinCode) {
+  // Hide normal lobby, show simplified join card
+  $('normalLobbySection').classList.add('hidden');
+  $('quickJoinSection').classList.remove('hidden');
+  $('quickJoinCode').textContent = _quickJoinCode.toUpperCase();
+  $('playerName').focus();
+}
 
 /* ── State ── */
 let state = {
@@ -135,11 +135,18 @@ $('joinBtn').addEventListener('click', () => {
   socket.emit('joinRoom', { roomId: code, name });
 });
 
+$('quickJoinBtn').addEventListener('click', () => {
+  const name = $('playerName').value.trim();
+  if (!name) { showError('Enter your name first.'); return; }
+  socket.emit('joinRoom', { roomId: _quickJoinCode.toUpperCase(), name });
+});
+
 $('roomCodeInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') $('joinBtn').click();
 });
 $('playerName').addEventListener('keydown', e => {
-  if (e.key === 'Enter') $('createBtn').click();
+  if (_quickJoinCode) { if (e.key === 'Enter') $('quickJoinBtn').click(); }
+  else { if (e.key === 'Enter') $('createBtn').click(); }
 });
 
 function showError(msg) {

@@ -68,6 +68,13 @@ body {
 .join-row { display: flex; gap: 8px; width: 100%; }
 .join-row input { flex: 1; }
 
+.quick-join-room {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+.quick-join-room strong { color: var(--accent); letter-spacing: 2px; }
+
 /* ── Waiting Room ── */
 .waiting-card { width: 100%; max-width: 400px; text-align: center; }
 .waiting-card h2 { margin-bottom: 20px; }
