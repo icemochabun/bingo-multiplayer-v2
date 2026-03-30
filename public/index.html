@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiplayer Bingo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Lobby ── -->
+  <div id="lobby" class="screen">
+    <div class="card lobby-card">
+      <h1>🎱 Multiplayer Bingo</h1>
+      <p class="subtitle">Play with friends in real time</p>
+
+      <div class="form-group">
+        <label for="playerName">Your Name</label>
+        <input id="playerName" type="text" placeholder="Enter your name" maxlength="20" />
+      </div>
+
+      <div class="btn-row">
+        <button id="createBtn" class="btn btn-primary">Create Room</button>
+        <span class="or">or</span>
+        <div class="join-row">
+          <input id="roomCodeInput" type="text" placeholder="Room code" maxlength="6" />
+          <button id="joinBtn" class="btn btn-secondary">Join</button>
+        </div>
+      </div>
+      <div id="lobbyError" class="error-msg"></div>
+    </div>
+  </div>
+
+  <!-- ── Waiting Room ── -->
+  <div id="waitingRoom" class="screen hidden">
+    <div class="card waiting-card">
+      <h2>Waiting Room</h2>
+      <div class="room-code-box">
+        Room Code: <strong id="displayRoomCode"></strong>
+        <button id="copyCodeBtn" class="btn btn-sm">Copy</button>
+      </div>
+      <div id="playerList" class="player-list"></div>
+      <button id="startBtn" class="btn btn-primary hidden">Start Game</button>
+      <p id="waitingMsg" class="muted">Waiting for host to start…</p>
+    </div>
+  </div>
+
+  <!-- ── Game ── -->
+  <div id="gameScreen" class="screen hidden">
+    <div class="game-layout">
+
+      <!-- Left panel -->
+      <div class="side-panel">
+        <div class="card info-card">
+          <div class="room-tag">Room: <strong id="gameRoomCode"></strong></div>
+          <div id="lastCalled" class="last-called">—</div>
+          <div class="label">Last Called</div>
+          <button id="claimBingoBtn" class="btn btn-bingo">BINGO!</button>
+          <button id="restartBtn" class="btn btn-secondary hidden">Restart</button>
+        </div>
+
+        <div class="card players-card">
+          <h3>Players</h3>
+          <div id="gamePlayers" class="player-list"></div>
+        </div>
+      </div>
+
+      <!-- Bingo card -->
+      <div class="main-panel">
+        <div id="bingoCard" class="bingo-card"></div>
+        <div id="calledBalls" class="called-balls"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Win Modal ── -->
+  <div id="winModal" class="modal hidden">
+    <div class="modal-box">
+      <div class="confetti-emoji">🎉</div>
+      <h2 id="winTitle"></h2>
+      <p id="winSubtitle"></p>
+      <button id="winCloseBtn" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
